@@ -182,5 +182,45 @@ namespace PoorBigIntTests
             var bi2 = BigInt.From(90000);
             Assert.AreEqual("-21111", BigInt.Subscruct(bi2, bi1).ToString());
         }
+
+        [TestMethod]
+        public void MultipliesPositive()
+        {
+            var v1 = 12345;
+            var v2 = 23456;
+            var bi1 = BigInt.From(v1);
+            var bi2 = BigInt.From(v2);
+            Assert.AreEqual(BigInt.From(v1 * v2), BigInt.Multiply(bi1, bi2));
+        }
+
+        [TestMethod]
+        public void MultipliesNegative()
+        {
+            var v1 = -12345;
+            var v2 = -23456;
+            var bi1 = BigInt.From(v1);
+            var bi2 = BigInt.From(v2);
+            Assert.AreEqual(BigInt.From(v1 * v2), BigInt.Multiply(bi1, bi2));
+        }
+
+        [TestMethod]
+        public void MultipliesDifferentSigns()
+        {
+            var v1 = -12345;
+            var v2 = 23456;
+            var bi1 = BigInt.From(v1);
+            var bi2 = BigInt.From(v2);
+            Assert.AreEqual(BigInt.From(v1 * v2), BigInt.Multiply(bi1, bi2));
+        }
+
+        [TestMethod]
+        public void MultipliesCommutativity()
+        {
+            var v1 = 12345;
+            var v2 = 23456;
+            var bi1 = BigInt.From(v1);
+            var bi2 = BigInt.From(v2);
+            Assert.AreEqual(BigInt.Multiply(bi2, bi1), BigInt.Multiply(bi1, bi2));
+        }
     }
 }

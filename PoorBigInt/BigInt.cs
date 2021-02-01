@@ -13,7 +13,7 @@ namespace PoorBigInt
         private BigInt(IReadOnlyList<byte> digits, bool isNegative = false)
         {
             _digits = TrimLeadingZeros(digits);
-            _isNegative = isNegative || _digits.Count == 0;
+            _isNegative = _digits.Count != 0 && isNegative;
         }
 
         public static BigInt From(long value)
@@ -94,6 +94,32 @@ namespace PoorBigInt
         public static BigInt Subscruct(BigInt left, BigInt right)
         {
             return Add(left, right.Negate());
+        }
+
+        public static BigInt Multiply(BigInt left, BigInt right)
+        {
+            var isNegative = left._isNegative != right._isNegative;
+            var acc = Zero;
+            var dlIndex = -1;
+            foreach (var dl in left._digits)
+            {
+                dlIndex += 1;
+                var digits = Enumerable.Repeat<byte>(0, dlIndex).ToList();
+                byte extra = 0;
+                foreach (var dr in right._digits)
+                {
+                    byte d = (byte)(dl * dr + extra);
+                    extra = (byte)(d / BASE);
+                    d = (byte)(d % BASE);
+                    digits.Add(d);
+                }
+                if (extra != 0)
+                {
+                    digits.Add(extra);
+                }
+                acc = Add(acc, new BigInt(digits));
+            }
+            return isNegative ? acc.Negate() : acc;
         }
 
         private static IReadOnlyList<byte> AddDigits(DigitsEnumerable enumerable)
