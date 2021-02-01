@@ -151,5 +151,21 @@ namespace PoorBigIntTests
             Assert.AreEqual(1, BigInt.Compare(bi1, bi2));
             Assert.AreEqual(-1, BigInt.Compare(bi2, bi1));
         }
+
+        [TestMethod]
+        public void GetsMin()
+        {
+            var bi1 = BigInt.From(-111111);
+            var bi2 = BigInt.From(-222222);
+            Assert.AreSame(bi2, BigInt.Min(bi1, bi2));
+        }
+
+        [TestMethod]
+        public void GetsMax()
+        {
+            var bi1 = BigInt.From(-111111);
+            var bi2 = BigInt.From(-222222);
+            Assert.AreSame(bi1, BigInt.Max(bi1, bi2));
+        }
     }
 }

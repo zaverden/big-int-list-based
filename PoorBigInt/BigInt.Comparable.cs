@@ -25,5 +25,23 @@ namespace PoorBigInt
 
             return 0;
         }
+
+        public static BigInt Min(BigInt left, BigInt right)
+        {
+            if (Compare(left, right) > 0)
+            {
+                return right;
+            }
+            return left;
+        }
+
+        public static BigInt Max(BigInt left, BigInt right)
+        {
+            if (Compare(left, right) > 0)
+            {
+                return left;
+            }
+            return right;
+        }
     }
 }
