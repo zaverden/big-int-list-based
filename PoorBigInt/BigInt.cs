@@ -12,8 +12,8 @@ namespace PoorBigInt
 
         private BigInt(IReadOnlyList<byte> digits, bool isNegative = false)
         {
-            _digits = digits;
-            _isNegative = isNegative;
+            _digits = TrimLeadingZeros(digits);
+            _isNegative = isNegative || _digits.Count == 0;
         }
 
         public static BigInt From(long value)
@@ -80,14 +80,15 @@ namespace PoorBigInt
         {
             left = left ?? Zero;
             right = right ?? Zero;
-            DigitsEnumerable digitsEnumerable = new DigitsEnumerable(left._digits, right._digits);
 
             if (left._isNegative == right._isNegative)
             {
-                return new BigInt(AddDigits(digitsEnumerable), left._isNegative);
+                return new BigInt(AddDigits(new DigitsEnumerable(left._digits, right._digits)), left._isNegative);
             }
 
-            return new BigInt(SubstructDigits(digitsEnumerable), left._isNegative);
+            var (min, max) = SortAbs(left, right);
+
+            return new BigInt(SubstructDigits(new DigitsEnumerable(max._digits, min._digits)), max._isNegative);
         }
 
         public static BigInt Subscruct(BigInt left, BigInt right)
@@ -119,18 +120,26 @@ namespace PoorBigInt
             byte extra = 0;
             foreach (var (d1, d2) in enumerable)
             {
-                byte d = (byte)(d1 - d2 - extra);
+                int d = d1 - d2 - extra;
                 if (d < 0)
                 {
                     extra = 1;
                     d += BASE;
-                } else
+                }
+                else
                 {
                     extra = 0;
                 }
-                digits.Add(d);
+                digits.Add((byte)d);
             }
             return digits;
+        }
+
+        private static IReadOnlyList<byte> TrimLeadingZeros(IReadOnlyList<byte> digits)
+        {
+            var list = new List<byte>(digits);
+            var lastNonZeroIndex = list.FindLastIndex(d => d != 0);
+            return list.Take(lastNonZeroIndex + 1).ToArray();
         }
     }
 }

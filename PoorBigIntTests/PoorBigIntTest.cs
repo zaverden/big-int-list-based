@@ -167,5 +167,20 @@ namespace PoorBigIntTests
             var bi2 = BigInt.From(-222222);
             Assert.AreSame(bi1, BigInt.Max(bi1, bi2));
         }
+
+        [TestMethod]
+        public void DontHaveLeadingZeros1()
+        {
+            var bi1 = BigInt.From(111111);
+            Assert.AreEqual("0", BigInt.Subscruct(bi1, bi1).ToString());
+        }
+
+        [TestMethod]
+        public void DontHaveLeadingZeros2()
+        {
+            var bi1 = BigInt.From(111111);
+            var bi2 = BigInt.From(90000);
+            Assert.AreEqual("-21111", BigInt.Subscruct(bi2, bi1).ToString());
+        }
     }
 }

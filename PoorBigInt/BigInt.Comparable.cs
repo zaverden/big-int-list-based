@@ -43,5 +43,16 @@ namespace PoorBigInt
             }
             return right;
         }
+
+        private static (BigInt, BigInt) SortAbs(BigInt a, BigInt b)
+        {
+            var aAbs = a.Abs();
+            var bAbs = b.Abs();
+            if (Compare(aAbs, bAbs) > 0)
+            {
+                return (b, a);
+            }
+            return (a, b);
+        }
     }
 }
