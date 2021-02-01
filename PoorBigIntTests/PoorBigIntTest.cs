@@ -50,5 +50,79 @@ namespace PoorBigIntTests
             Assert.AreNotEqual('-', biStr[0]);
             Assert.AreEqual(biStr, nbiStr.Substring(1));
         }
+
+        [TestMethod]
+        public void EqualsSame()
+        {
+            var bi1 = BigInt.From(long.MaxValue);
+            var bi2 = BigInt.From(long.MaxValue);
+            Assert.AreNotSame(bi1, bi2);
+            Assert.AreEqual(bi1, bi2);
+        }
+
+        [TestMethod]
+        public void NotEqualsNegation()
+        {
+            var bi1 = BigInt.From(long.MaxValue);
+            var bi2 = bi1.Negate();
+            Assert.AreNotSame(bi1, bi2);
+            Assert.AreNotEqual(bi1, bi2);
+        }
+
+        [TestMethod]
+        public void EqualsDoubleNegation()
+        {
+            var bi1 = BigInt.From(long.MaxValue);
+            var bi2 = bi1.Negate().Negate();
+            Assert.AreNotSame(bi1, bi2);
+            Assert.AreEqual(bi1, bi2);
+        }
+
+        [TestMethod]
+        public void AddsTwoPositive()
+        {
+            var bi1 = BigInt.From(111111);
+            var bi2 = BigInt.From(222222);
+            Assert.AreEqual(BigInt.From(333333), BigInt.Add(bi1, bi2));
+        }
+
+        [TestMethod]
+        public void AddsTwoNegative()
+        {
+            var bi1 = BigInt.From(-111111);
+            var bi2 = BigInt.From(-222222);
+            Assert.AreEqual(BigInt.From(-333333), BigInt.Add(bi1, bi2));
+        }
+
+        [TestMethod]
+        public void AddsTwoPositiveWithExtraDigit()
+        {
+            var bi1 = BigInt.From(999999);
+            var bi2 = BigInt.From(1);
+            Assert.AreEqual(BigInt.From(1000000), BigInt.Add(bi1, bi2));
+        }
+
+        [TestMethod]
+        public void SubstructsSmallerFromBigger()
+        {
+            var bi1 = BigInt.From(222222);
+            var bi2 = BigInt.From(111111);
+            Assert.AreEqual(BigInt.From(111111), BigInt.Subscruct(bi1, bi2));
+        }
+
+        [TestMethod]
+        public void SubstructsBiggerFromSmaller()
+        {
+            var bi1 = BigInt.From(111111);
+            var bi2 = BigInt.From(222222);
+            Assert.AreEqual(BigInt.From(-111111), BigInt.Subscruct(bi1, bi2));
+        }
+
+        [TestMethod]
+        public void AddsNumberAndNegation()
+        {
+            var bi1 = BigInt.From(222222);
+            Assert.AreEqual(BigInt.Zero, BigInt.Add(bi1, bi1.Negate()));
+        }
     }
 }
