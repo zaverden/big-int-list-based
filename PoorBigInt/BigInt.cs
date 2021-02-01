@@ -122,6 +122,27 @@ namespace PoorBigInt
             return isNegative ? acc.Negate() : acc;
         }
 
+        public static BigInt Divide(BigInt left, BigInt right)
+        {
+            var isNegative = left._isNegative != right._isNegative;
+            var resultDigits = new List<byte>();
+            var position = left._digits.Count - right._digits.Count;
+            var tail = left.Abs();
+            for (int i = position; i >= 0; i--)
+            {
+                var part = new BigInt(Enumerable.Repeat<byte>(0, i).Concat(right._digits).ToArray());
+                byte n = 0;
+                while (Compare(tail, part) >= 0)
+                {
+                    n += 1;
+                    tail = Subscruct(tail, part);
+                }
+                resultDigits.Add(n);
+            }
+            resultDigits.Reverse();
+            return new BigInt(resultDigits, isNegative);
+        }
+
         private static IReadOnlyList<byte> AddDigits(DigitsEnumerable enumerable)
         {
             var digits = new List<byte>();

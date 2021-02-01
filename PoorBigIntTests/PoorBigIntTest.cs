@@ -222,5 +222,25 @@ namespace PoorBigIntTests
             var bi2 = BigInt.From(v2);
             Assert.AreEqual(BigInt.Multiply(bi2, bi1), BigInt.Multiply(bi1, bi2));
         }
+
+        [TestMethod]
+        public void DividesPositiveWithoutRemainder()
+        {
+            var v1 = 64746;
+            var v2 = 594;
+            var bi1 = BigInt.From(v1);
+            var bi2 = BigInt.From(v2);
+            Assert.AreEqual(BigInt.From(v1 / v2), BigInt.Divide(bi1, bi2));
+        }
+
+        [TestMethod]
+        public void DividesPositiveWithRemainder()
+        {
+            var v1 = 64740;
+            var v2 = 594;
+            var bi1 = BigInt.From(v1);
+            var bi2 = BigInt.From(v2);
+            Assert.AreEqual(BigInt.From(v1 / v2), BigInt.Divide(bi1, bi2));
+        }
     }
 }
