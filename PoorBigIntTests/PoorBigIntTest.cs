@@ -124,5 +124,32 @@ namespace PoorBigIntTests
             var bi1 = BigInt.From(222222);
             Assert.AreEqual(BigInt.Zero, BigInt.Add(bi1, bi1.Negate()));
         }
+
+        [TestMethod]
+        public void ComparesDifferentSigns()
+        {
+            var bi1 = BigInt.From(222222);
+            var bi2 = BigInt.From(-222222);
+            Assert.AreEqual(1, bi1.CompareTo(bi2));
+            Assert.AreEqual(-1, bi2.CompareTo(bi1));
+        }
+
+        [TestMethod]
+        public void ComparesPositive()
+        {
+            var bi1 = BigInt.From(222222);
+            var bi2 = BigInt.From(111111);
+            Assert.AreEqual(1, BigInt.Compare(bi1, bi2));
+            Assert.AreEqual(-1, BigInt.Compare(bi2, bi1));
+        }
+
+        [TestMethod]
+        public void ComparesNegative()
+        {
+            var bi1 = BigInt.From(-111111);
+            var bi2 = BigInt.From(-222222);
+            Assert.AreEqual(1, BigInt.Compare(bi1, bi2));
+            Assert.AreEqual(-1, BigInt.Compare(bi2, bi1));
+        }
     }
 }
