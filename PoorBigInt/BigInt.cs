@@ -16,6 +16,11 @@ namespace PoorBigInt
             _isNegative = isNegative;
         }
 
+        public BigInt Negate()
+        {
+            return new BigInt(_digits, !_isNegative);
+        }
+
         public override string ToString()
         {
             var prefix = _isNegative ? "-" : "";
